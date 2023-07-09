@@ -16,15 +16,13 @@
 package me.zhengjie.modules.security.config.bean;
 
 /**
- * 验证码配置枚举
+ * 驗證碼 enum
  *
- * @author: liaojinlong
- * @date: 2020/6/10 17:40
  */
 
 public enum LoginCodeEnum {
     /**
-     * 算数
+     * 算數
      */
     ARITHMETIC,
     /**
@@ -32,11 +30,11 @@ public enum LoginCodeEnum {
      */
     CHINESE,
     /**
-     * 中文闪图
+     * 中文閃圖
      */
     CHINESE_GIF,
     /**
-     * 闪图
+     * 閃圖
      */
     GIF,
     SPEC

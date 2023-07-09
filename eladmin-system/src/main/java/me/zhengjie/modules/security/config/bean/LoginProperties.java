@@ -24,7 +24,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * 配置文件读取
+ * 驗證碼配置文件
  *
  * @author liaojinlong
  * @date loginCode.length0loginCode.length0/6/10 17:loginCode.length6
@@ -33,7 +33,7 @@ import java.util.Objects;
 public class LoginProperties {
 
     /**
-     * 账号单用户 登录
+     *  帳號單用戶登入
      */
     private boolean singleLogin = false;
 
@@ -46,9 +46,7 @@ public class LoginProperties {
     }
 
     /**
-     * 获取验证码生产类
-     *
-     * @return /
+     * 獲取驗證碼
      */
     public Captcha getCaptcha() {
         if (Objects.isNull(loginCode)) {
@@ -61,18 +59,13 @@ public class LoginProperties {
     }
 
     /**
-     * 依据配置信息生产验证码
-     *
-     * @param loginCode 验证码配置信息
-     * @return /
+     * 驗證碼生成規則
      */
     private Captcha switchCaptcha(LoginCode loginCode) {
-        Captcha captcha;
+        Captcha captcha;    //null
         switch (loginCode.getCodeType()) {
             case ARITHMETIC:
-                // 算术类型 https://gitee.com/whvse/EasyCaptcha
                 captcha = new FixedArithmeticCaptcha(loginCode.getWidth(), loginCode.getHeight());
-                // 几位数运算，默认是两位
                 captcha.setLen(loginCode.getLength());
                 break;
             case CHINESE:
@@ -92,7 +85,7 @@ public class LoginProperties {
                 captcha.setLen(loginCode.getLength());
                 break;
             default:
-                throw new BadConfigurationException("验证码配置信息错误！正确配置查看 LoginCodeEnum ");
+                throw new BadConfigurationException("驗證碼配置錯誤！請查看 LoginCodeEnum ");
         }
         if(StringUtils.isNotBlank(loginCode.getFontName())){
             captcha.setFont(new Font(loginCode.getFontName(), Font.PLAIN, loginCode.getFontSize()));
@@ -107,13 +100,13 @@ public class LoginProperties {
 
         @Override
         protected char[] alphas() {
-            // 生成随机数字和运算符
+            // 隨機生成數字
             int n1 = num(1, 10), n2 = num(1, 10);
             int opt = num(3);
 
-            // 计算结果
+            // 隨機取運算結果
             int res = new int[]{n1 + n2, n1 - n2, n1 * n2}[opt];
-            // 转换为字符运算符
+            // 生成運算符
             char optChar = "+-x".charAt(opt);
 
             this.setArithmeticString(String.format("%s%c%s=?", n1, optChar, n2));

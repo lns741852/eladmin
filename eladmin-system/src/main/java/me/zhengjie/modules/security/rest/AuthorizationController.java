@@ -119,10 +119,10 @@ public class AuthorizationController {
         return ResponseEntity.ok(SecurityUtils.getCurrentUser());
     }
 
-    @ApiOperation("获取验证码")
+    @ApiOperation("獲取驗證碼")
     @AnonymousGetMapping(value = "/code")
     public ResponseEntity<Object> getCode() {
-        // 获取运算的结果
+        // 獲取驗證碼
         Captcha captcha = loginProperties.getCaptcha();
         String uuid = properties.getCodeKey() + IdUtil.simpleUUID();
         //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
