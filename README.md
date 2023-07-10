@@ -52,7 +52,7 @@
 	- config 配置跨域与静态资源，与数据权限
 	    - thread 线程池相关
 	- modules 
-		-security 權限控制
+		-security (權限控制)
 			-config
 				-bean
 					-loginCode(驗證碼bean)
