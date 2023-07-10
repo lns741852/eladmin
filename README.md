@@ -71,6 +71,11 @@
 				-TokenFilter(過濾器)
 				-TokenProvider(Token配置管理)
 			-service
+				-dto
+					-JwtUserDto(實現UserDetails)
+					-AuthorityDto(避免Role序列化問題)
+				-UserDetailsServiceImpl(實現UserDetailsService)
+				
 - eladmin-logging 系统日志模块
 - eladmin-tools 系统第三方工具模块
 - eladmin-generator 系统代码生成模块
