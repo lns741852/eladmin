@@ -53,11 +53,14 @@
 	    - thread 线程池相关
 	- modules 
 		-security 權限控制
-			-config > bean
+			-config 
 				-驗證碼
 				-loginCode
 				-loginCodeEnum
 				-LoginProperties
+			-rest
+			-security
+			-service
 - eladmin-logging 系统日志模块
 - eladmin-tools 系统第三方工具模块
 - eladmin-generator 系统代码生成模块
