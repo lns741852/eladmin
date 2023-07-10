@@ -57,12 +57,19 @@
 				-bean
 					-loginCode(驗證碼bean)
 					-loginCodeEnum(驗證碼enum)
-					-LoginProperties(驗證碼參數配置)
-					-SecurityProperties(Jwt參數配置)
+					-LoginProperties(驗證碼配置管理)
+					-SecurityProperties(Jwt配置管理)
 				-ConfigBeanConfiguration(類別參數讀取application.yml)
 				-SpringSecurityConfig(Spring Scurity配置)
 			-rest
+				-AuthorizationController(用戶API)
+				-OnlineController(在線用戶API)
 			-security
+				-JwtAccessDeniedHandler(自訂返回403)
+				-JwtAuthenticationEntryPoint(自訂返回401)
+				-TokenConfigurer(繼承SecurityConfigurerAdapter)
+				-TokenFilter(過濾器)
+				-TokenProvider(Token配置管理)
 			-service
 - eladmin-logging 系统日志模块
 - eladmin-tools 系统第三方工具模块
