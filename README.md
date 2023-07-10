@@ -18,9 +18,7 @@
     - base (提供了Entity、DTO基類和mapstruct的通用mapper)
 		
 
-    - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
-	-SwaggerConfig(Swagger ui 配置)
-
+    - config (自定義權限實現、redis配置、swagger配置、Rsa配置等)
 
     - exception 项目统一异常的处理
     - utils 系统通用工具类
