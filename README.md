@@ -57,7 +57,10 @@
 				-bean
 					-loginCode(驗證碼bean)
 					-loginCodeEnum(驗證碼enum)
-					-LoginProperties(驗證碼properties)
+					-LoginProperties(驗證碼參數配置)
+					-SecurityProperties(Jwt參數配置)
+				-ConfigBeanConfiguration(類別參數讀取application.yml)
+				-SpringSecurityConfig(Spring Scurity配置)
 			-rest
 			-security
 			-service
