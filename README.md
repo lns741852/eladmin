@@ -53,11 +53,11 @@
 	    - thread 线程池相关
 	- modules 
 		-security 權限控制
-			-config 
-				-驗證碼
-				-loginCode
-				-loginCodeEnum
-				-LoginProperties
+			-config
+				-bean
+					-loginCode(驗證碼bean)
+					-loginCodeEnum(驗證碼enum)
+					-LoginProperties(驗證碼properties)
 			-rest
 			-security
 			-service
