@@ -36,7 +36,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author /
+ * Token工具類
  */
 @Slf4j
 @Component
@@ -99,7 +99,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * @param token 需要检查的token
+     * @param token 需要檢查的token
      */
     public void checkRenewal(String token) {
         // 判断是否续期token,计算token的过期时间
@@ -123,7 +123,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * 获取登录用户RedisKey
+     * 戶取登入用戶RedisKey
      * @param token /
      * @return key
      */

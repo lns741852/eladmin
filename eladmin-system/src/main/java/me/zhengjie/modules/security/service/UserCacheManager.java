@@ -26,9 +26,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * @author Zheng Jie
- * @description 用户缓存管理
- * @date 2022-05-26
+ * @description 用戶緩存管理
  **/
 @Component
 public class UserCacheManager {
@@ -39,8 +37,8 @@ public class UserCacheManager {
     private long idleTime;
 
     /**
-     * 返回用户缓存
-     * @param userName 用户名
+     * 返回緩存
+     * @param userName 用戶名
      * @return JwtUserDto
      */
     public JwtUserDto getUserCache(String userName) {
@@ -55,8 +53,8 @@ public class UserCacheManager {
     }
 
     /**
-     *  添加缓存到Redis
-     * @param userName 用户名
+     *  添加緩存Redis
+     * @param userName 用戶名
      */
     @Async
     public void addUserCache(String userName, JwtUserDto user) {
@@ -68,14 +66,13 @@ public class UserCacheManager {
     }
 
     /**
-     * 清理用户缓存信息
-     * 用户信息变更时
-     * @param userName 用户名
+     * 清理用戶緩存訊息
+     * @param userName 用戶名
      */
     @Async
     public void cleanUserCache(String userName) {
         if (StringUtils.isNotEmpty(userName)) {
-            // 清除数据
+            // 請除數據
             redisUtils.del(LoginProperties.cacheKey + userName);
         }
     }

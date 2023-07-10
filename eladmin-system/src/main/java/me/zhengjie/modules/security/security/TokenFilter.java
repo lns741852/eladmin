@@ -41,7 +41,6 @@ import java.util.Objects;
 public class TokenFilter extends GenericFilterBean {
     private static final Logger log = LoggerFactory.getLogger(TokenFilter.class);
 
-
     private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
     private final OnlineUserService onlineUserService;
@@ -50,8 +49,8 @@ public class TokenFilter extends GenericFilterBean {
     /**
      * @param tokenProvider     Token
      * @param properties        JWT
-     * @param onlineUserService 用户在线
-     * @param userCacheManager    用户缓存工具
+     * @param onlineUserService 用戶載在線
+     * @param userCacheManager    用戶緩存
      */
     public TokenFilter(TokenProvider tokenProvider, SecurityProperties properties, OnlineUserService onlineUserService, UserCacheManager userCacheManager) {
         this.properties = properties;
@@ -65,7 +64,7 @@ public class TokenFilter extends GenericFilterBean {
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String token = resolveToken(httpServletRequest);
-        // 对于 Token 为空的不需要去查 Redis
+        // Token 為空的不需要去查 Redis
         if (StrUtil.isNotBlank(token)) {
             OnlineUserDto onlineUserDto = null;
             boolean cleanUserCache = false;
@@ -80,10 +79,11 @@ public class TokenFilter extends GenericFilterBean {
                     userCacheManager.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
                 }
             }
+            // StringUtils.hasText(token) 判斷是否不含非法字符
             if (onlineUserDto != null && StringUtils.hasText(token)) {
                 Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                // Token 续期
+                // Token 續期
                 tokenProvider.checkRenewal(token);
             }
         }
@@ -91,7 +91,7 @@ public class TokenFilter extends GenericFilterBean {
     }
 
     /**
-     * 初步检测Token
+     * 初步檢測Token
      *
      * @param request /
      * @return /
@@ -99,7 +99,7 @@ public class TokenFilter extends GenericFilterBean {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(properties.getHeader());
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(properties.getTokenStartWith())) {
-            // 去掉令牌前缀
+            // 去掉前墜
             return bearerToken.replace(properties.getTokenStartWith(), "");
         } else {
             log.debug("非法Token：{}", bearerToken);

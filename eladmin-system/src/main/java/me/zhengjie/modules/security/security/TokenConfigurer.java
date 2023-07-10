@@ -15,6 +15,7 @@
  */
 package me.zhengjie.modules.security.security;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.security.config.bean.SecurityProperties;
 import me.zhengjie.modules.security.service.OnlineUserService;
@@ -25,11 +26,17 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * @author /
+ * spring  Scurity  配置
  */
+
+
+//自動生成構造函數
 @RequiredArgsConstructor
 public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
+    //不加入構造函數
+    @NonNull
+    private  final String tset;
     private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
     private final OnlineUserService onlineUserService;
@@ -38,6 +45,7 @@ public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFi
     @Override
     public void configure(HttpSecurity http) {
         TokenFilter customFilter = new TokenFilter(tokenProvider, properties, onlineUserService, userCacheManager);
+        //添加JWT過濾器
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
