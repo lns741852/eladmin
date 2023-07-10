@@ -15,7 +15,9 @@
 - eladmin-common 公共模块
     - annotation 为系统自定义注解
     - aspect 自定义注解的切面
-    - base 提供了Entity、DTO基类和mapstruct的通用mapper
+    - base (提供了Entity、DTO基類和mapstruct的通用mapper)
+		
+
     - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
 	-SwaggerConfig(Swagger ui 配置)
 
