@@ -96,7 +96,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     }
 
     /**
-     * 获取SpringBoot 配置信息
+     * 獲取SpringBoot 配置訊息
      *
      * @param property     属性key
      * @param requiredType 返回类型

@@ -37,26 +37,31 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/online")
-@Api(tags = "系统：在线用户管理")
+@Api(tags = "系統：在線用戶管理")
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;
 
-    @ApiOperation("查询在线用户")
+
+    /**
+     *
+     * 滿足@Service(value = "el")標註方法，才能調用該方法
+     */
+    @ApiOperation("查詢在線用戶")
     @GetMapping
     @PreAuthorize("@el.check()")
     public ResponseEntity<PageResult<OnlineUserDto>> queryOnlineUser(String username, Pageable pageable){
         return new ResponseEntity<>(onlineUserService.getAll(username, pageable),HttpStatus.OK);
     }
 
-    @ApiOperation("导出数据")
+    @ApiOperation("導出數據")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check()")
     public void exportOnlineUser(HttpServletResponse response, String username) throws IOException {
         onlineUserService.download(onlineUserService.getAll(username), response);
     }
 
-    @ApiOperation("踢出用户")
+    @ApiOperation("踢出用戶")
     @DeleteMapping
     @PreAuthorize("@el.check()")
     public ResponseEntity<Object> deleteOnlineUser(@RequestBody Set<String> keys) throws Exception {

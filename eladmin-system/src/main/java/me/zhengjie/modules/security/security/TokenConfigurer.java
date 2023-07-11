@@ -35,8 +35,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     //不加入構造函數
-    @NonNull
-    private  final String tset;
+//    @NonNull
+//    private  final String tset;
     private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
     private final OnlineUserService onlineUserService;

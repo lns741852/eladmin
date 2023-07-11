@@ -4,7 +4,7 @@
     <property name="log.charset" value="utf-8" />
     <property name="log.pattern" value="%contextName- %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}) - %msg%n" />
 
-    <!--输出到控制台-->
+    <!--輸出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${log.pattern}</pattern>
@@ -12,12 +12,12 @@
         </encoder>
     </appender>
 
-    <!--普通日志输出到控制台-->
+    <!--普通日志輸出到控制台-->
     <root level="info">
         <appender-ref ref="console" />
     </root>
 
-    <!--监控sql日志输出,如需监控 Sql 打印，请设置为 INFO -->
+    <!--監控sql日志輸出,如需監控 Sql 打印，請設置為 INFO -->
     <logger name="jdbc.sqlonly" level="ERROR" additivity="false">
         <appender-ref ref="console" />
     </logger>
@@ -26,7 +26,7 @@
         <appender-ref ref="console" />
     </logger>
 
-    <!--  如想看到表格数据，将OFF改为INFO  -->
+    <!--  如想看到表格數據，將OFF改為INFO  -->
     <logger name="jdbc.resultsettable" level="OFF" additivity="false">
         <appender-ref ref="console" />
     </logger>

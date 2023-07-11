@@ -38,33 +38,33 @@ import java.util.List;
 import java.util.Set;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
-*/
+ * @author Zheng Jie
+ * @date 2019-04-10
+ */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "系统：字典管理")
+@Api(tags = "系統：字典管理")
 @RequestMapping("/api/dict")
 public class DictController {
 
     private final DictService dictService;
     private static final String ENTITY_NAME = "dict";
 
-    @ApiOperation("导出字典数据")
+    @ApiOperation("導出字典數據")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('dict:list')")
     public void exportDict(HttpServletResponse response, DictQueryCriteria criteria) throws IOException {
         dictService.download(dictService.queryAll(criteria), response);
     }
 
-    @ApiOperation("查询字典")
+    @ApiOperation("查詢字典")
     @GetMapping(value = "/all")
     @PreAuthorize("@el.check('dict:list')")
     public ResponseEntity<List<DictDto>> queryAllDict(){
         return new ResponseEntity<>(dictService.queryAll(new DictQueryCriteria()),HttpStatus.OK);
     }
 
-    @ApiOperation("查询字典")
+    @ApiOperation("查詢字典")
     @GetMapping
     @PreAuthorize("@el.check('dict:list')")
     public ResponseEntity<PageResult<DictDto>> queryDict(DictQueryCriteria resources, Pageable pageable){
@@ -92,8 +92,8 @@ public class DictController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Log("删除字典")
-    @ApiOperation("删除字典")
+    @Log("刪除字典")
+    @ApiOperation("刪除字典")
     @DeleteMapping
     @PreAuthorize("@el.check('dict:del')")
     public ResponseEntity<Object> deleteDict(@RequestBody Set<Long> ids){

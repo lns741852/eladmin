@@ -21,9 +21,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * 避免序列化问题
- * @author Zheng Jie
- * @date 2018-11-30
+ * 避免序列化問題
  */
 @Data
 @NoArgsConstructor

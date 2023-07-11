@@ -37,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Token工具類
+ *
+ * 初始化後執行方法 ->InitializingBean
  */
 @Slf4j
 @Component
@@ -65,15 +67,15 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * 创建Token 设置永不过期，
-     * Token 的时间有效性转到Redis 维护
+     * 創建Token 設置永不過期，
+     * Token 的時間有效性轉到Redis 維護
      *
      * @param authentication /
      * @return /
      */
     public String createToken(Authentication authentication) {
         return jwtBuilder
-                // 加入ID确保生成的 Token 都不一致
+                // 加入ID確保生成的 Token 都不一致
                 .setId(IdUtil.simpleUUID())
                 .claim(AUTHORITIES_KEY, authentication.getName())
                 .setSubject(authentication.getName())
@@ -81,7 +83,7 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * 依据Token 获取鉴权信息
+     * 依據Token 獲取鑒權信息
      *
      * @param token /
      * @return /
@@ -102,12 +104,12 @@ public class TokenProvider implements InitializingBean {
      * @param token 需要檢查的token
      */
     public void checkRenewal(String token) {
-        // 判断是否续期token,计算token的过期时间
+        // 判斷是否續期token,計算token的過期時間
         long time = redisUtils.getExpire(properties.getOnlineKey() + token) * 1000;
         Date expireDate = DateUtil.offset(new Date(), DateField.MILLISECOND, (int) time);
-        // 判断当前时间与过期时间的时间差
+        // 判斷當前時間與過期時間的時間差
         long differ = expireDate.getTime() - System.currentTimeMillis();
-        // 如果在续期检查的范围内，则续期
+        // 如果在續期檢查的範圍內，則續期
         if (differ <= properties.getDetect()) {
             long renew = time + properties.getRenew();
             redisUtils.expire(properties.getOnlineKey() + token, renew, TimeUnit.MILLISECONDS);

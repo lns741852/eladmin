@@ -44,7 +44,7 @@ public class BaseEntity implements Serializable {
 
     @CreatedBy
     @Column(name = "create_by", updatable = false)
-    @ApiModelProperty(value = "创建人", hidden = true)
+    @ApiModelProperty(value = "創建人", hidden = true)
     private String createBy;
 
     @LastModifiedBy
@@ -54,12 +54,12 @@ public class BaseEntity implements Serializable {
 
     @CreationTimestamp
     @Column(name = "create_time", updatable = false)
-    @ApiModelProperty(value = "创建时间", hidden = true)
+    @ApiModelProperty(value = "創建時間", hidden = true)
     private Timestamp createTime;
 
     @UpdateTimestamp
     @Column(name = "update_time")
-    @ApiModelProperty(value = "更新时间", hidden = true)
+    @ApiModelProperty(value = "更新時間", hidden = true)
     private Timestamp updateTime;
 
     /* 分组校验 */

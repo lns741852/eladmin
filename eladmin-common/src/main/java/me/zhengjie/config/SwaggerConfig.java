@@ -44,9 +44,8 @@ import java.util.List;
 import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 /**
- * api页面 /doc.html
- * @author Zheng Jie
- * @date 2018-11-23
+ * swagger ui
+ * 頁面URL -> localhost:xxxx/doc.html
  */
 @Configuration
 @EnableSwagger2
@@ -69,21 +68,21 @@ public class SwaggerConfig {
                 .paths(PathSelectors.regex("^(?!/error).*"))
                 .paths(PathSelectors.any())
                 .build()
-                //添加登陆认证
+                //添加登陸認證
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .description("一个简单且易上手的 Spring boot 后台管理框架")
-                .title("ELADMIN 接口文档")
+                .description("一個簡單且易上手的 Spring boot 後台管理框架")
+                .title("ELADMIN 接口文檔")
                 .version("2.6")
                 .build();
     }
 
     private List<SecurityScheme> securitySchemes() {
-        //设置请求头信息
+        //設置請求頭信息
         List<SecurityScheme> securitySchemes = new ArrayList<>();
         ApiKey apiKey = new ApiKey(tokenHeader, tokenHeader, "header");
         securitySchemes.add(apiKey);
@@ -91,10 +90,10 @@ public class SwaggerConfig {
     }
 
     private List<SecurityContext> securityContexts() {
-        //设置需要登录认证的路径
+        //設置需要登錄認證的路徑
         List<SecurityContext> securityContexts = new ArrayList<>();
-        // ^(?!auth).*$ 表示所有包含auth的接口不需要使用securitySchemes即不需要带token
-        // ^标识开始  ()里是一子表达式  ?!/auth表示匹配不是/auth的位置，匹配上则添加请求头，注意路径已/开头  .表示任意字符  *表示前面的字符匹配多次 $标识结束
+        // ^(?!auth).*$ 表示所有包含auth的接口不需要使用securitySchemes即不需要帶token
+        // ^標識開始  ()里是一子表達式  ?!/auth表示匹配不是/auth的位置，匹配上則添加請求頭，注意路徑已/開頭  .表示任意字符  *表示前面的字符匹配多次 $標識結束
         securityContexts.add(getContextByPath());
         return securityContexts;
     }
@@ -117,7 +116,7 @@ public class SwaggerConfig {
 }
 
 /**
- *  将Pageable转换展示在swagger中
+ *  將Pageable轉換展示在swagger中
  */
 @Configuration
 class SwaggerDataConfig {
@@ -140,13 +139,13 @@ class SwaggerDataConfig {
     @ApiModel
     @Data
     private static class Page {
-        @ApiModelProperty("页码 (0..N)")
+        @ApiModelProperty("頁碼 (0..N)")
         private Integer page;
 
-        @ApiModelProperty("每页显示的数目")
+        @ApiModelProperty("每頁顯示的數目")
         private Integer size;
 
-        @ApiModelProperty("以下列格式排序标准：property[,asc | desc]。 默认排序顺序为升序。 支持多种排序条件：如：id,asc")
+        @ApiModelProperty("以下列格式排序標準：property[,asc | desc]。 默認排序順序為升序。 支持多種排序條件：如：id,asc")
         private List<String> sort;
     }
 }

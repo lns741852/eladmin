@@ -28,7 +28,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 开启审计功能 -> @EnableJpaAuditing
+ * 開啟審計功能，持久化時，紀錄資料異動時間 -> @EnableJpaAuditing
+ * 開啟事務功能 -> @EnableTransactionManagement
+ * 開啟異步功能 -> @EnableAsync
+ * swagger影藏API文檔  -> @Api(hidden = true)
  *
  * @author Zheng Jie
  * @date 2018/11/15 9:20:19
@@ -43,8 +46,7 @@ public class AppRun {
 
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(AppRun.class);
-        // 监控应用的PID，启动时可指定PID路径：--spring.pid.file=/home/eladmin/app.pid
-        // 或者在 application.yml 添加文件路径，方便 kill，kill `cat /home/eladmin/app.pid`
+        // 監控PID，啟動時可指定PID路徑：--spring.pid.file=C:\eladmin\file\file.pid
         springApplication.addListeners(new ApplicationPidFileWriter());
         springApplication.run(args);
     }
@@ -55,8 +57,8 @@ public class AppRun {
     }
 
     /**
-     * 访问首页提示
-     *
+     * 訪問首頁提示
+     * 匿名操作 ->  @AnonymousGetMapping("/")
      * @return /
      */
     @AnonymousGetMapping("/")

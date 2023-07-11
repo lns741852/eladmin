@@ -26,9 +26,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
-*/
+ * @author Zheng Jie
+ * @date 2019-04-10
+ */
 @Entity
 @Getter
 @Setter
@@ -46,7 +46,7 @@ public class Dict extends BaseEntity implements Serializable {
     private List<DictDetail> dictDetails;
 
     @NotBlank
-    @ApiModelProperty(value = "名称")
+    @ApiModelProperty(value = "名稱")
     private String name;
 
     @ApiModelProperty(value = "描述")

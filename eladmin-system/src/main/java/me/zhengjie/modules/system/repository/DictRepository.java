@@ -23,8 +23,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
+ *  一般的CRUD JpaRepository<Dict, Long>
+ *  複查查詢JpaSpecificationExecutor<Dict>
+ *
 */
 public interface DictRepository extends JpaRepository<Dict, Long>, JpaSpecificationExecutor<Dict> {
 

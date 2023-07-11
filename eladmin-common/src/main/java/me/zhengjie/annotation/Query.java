@@ -28,60 +28,60 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Query {
 
-    // Dong ZhaoYang 2017/8/7 基本对象的属性名
+    // Dong ZhaoYang 2017/8/7 基本對象的屬性名
     String propName() default "";
-    // Dong ZhaoYang 2017/8/7 查询方式
+    // Dong ZhaoYang 2017/8/7 查詢方式
     Type type() default Type.EQUAL;
 
     /**
-     * 连接查询的属性名，如User类中的dept
+     * 連接查詢的屬性名，如User類中的dept
      */
     String joinName() default "";
 
     /**
-     * 默认左连接
+     * 默認左連接
      */
     Join join() default Join.LEFT;
 
     /**
-     * 多字段模糊搜索，仅支持String类型字段，多个用逗号隔开, 如@Query(blurry = "email,username")
+     * 多字段模糊搜索，僅支持String類型字段，多個用逗號隔開, 如@Query(blurry = "email,username")
      */
     String blurry() default "";
 
     enum Type {
         // jie 2019/6/4 相等
         EQUAL
-        // Dong ZhaoYang 2017/8/7 大于等于
+        // Dong ZhaoYang 2017/8/7 大於等於
         , GREATER_THAN
-        // Dong ZhaoYang 2017/8/7 小于等于
+        // Dong ZhaoYang 2017/8/7 小於等於
         , LESS_THAN
-        // Dong ZhaoYang 2017/8/7 中模糊查询
+        // Dong ZhaoYang 2017/8/7 中模糊查詢
         , INNER_LIKE
-        // Dong ZhaoYang 2017/8/7 左模糊查询
+        // Dong ZhaoYang 2017/8/7 左模糊查詢
         , LEFT_LIKE
-        // Dong ZhaoYang 2017/8/7 右模糊查询
+        // Dong ZhaoYang 2017/8/7 右模糊查詢
         , RIGHT_LIKE
-        // Dong ZhaoYang 2017/8/7 小于
+        // Dong ZhaoYang 2017/8/7 小於
         , LESS_THAN_NQ
         // jie 2019/6/4 包含
         , IN
         // 不包含
         , NOT_IN
-        // 不等于
+        // 不等於
         ,NOT_EQUAL
         // between
         ,BETWEEN
-        // 不为空
+        // 不為空
         ,NOT_NULL
-        // 为空
+        // 為空
         ,IS_NULL,
-        // Aborn Jiang 2022/06/01, 对应SQL: SELECT * FROM table WHERE FIND_IN_SET('querytag', table.tags);
+        // Aborn Jiang 2022/06/01, 對應SQL: SELECT * FROM table WHERE FIND_IN_SET('querytag', table.tags);
         FIND_IN_SET
     }
 
     /**
      * @author Zheng Jie
-     * 适用于简单连接查询，复杂的请自定义该注解，或者使用sql查询
+     * 適用於簡單連接查詢，覆雜的請自定義該注解，或者使用sql查詢
      */
     enum Join {
         /** jie 2019-6-4 13:18:30 */

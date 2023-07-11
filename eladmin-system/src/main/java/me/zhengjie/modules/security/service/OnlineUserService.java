@@ -33,8 +33,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Zheng Jie
- * @date 2019年10月26日21:56:27
+ * @description  在線訊息管理
+ *
  */
 @Service
 @Slf4j
@@ -46,7 +46,7 @@ public class OnlineUserService {
     private final RedisUtils redisUtils;
 
     /**
-     * 保存在线用户信息
+     * 保存在線用戶信息
      * @param jwtUserDto /
      * @param token /
      * @param request /
@@ -67,7 +67,7 @@ public class OnlineUserService {
     }
 
     /**
-     * 查询全部数据
+     * 查詢全部數據
      * @param username /
      * @param pageable /
      * @return /
@@ -81,7 +81,7 @@ public class OnlineUserService {
     }
 
     /**
-     * 查询全部数据，不分页
+     * 查詢全部數據，不分頁
      * @param username /
      * @return /
      */
@@ -99,7 +99,7 @@ public class OnlineUserService {
     }
 
     /**
-     * 退出登录
+     * 退出登錄
      * @param token /
      */
     public void logout(String token) {
@@ -108,7 +108,7 @@ public class OnlineUserService {
     }
 
     /**
-     * 导出
+     * 導出
      * @param all /
      * @param response /
      * @throws IOException /
@@ -117,12 +117,12 @@ public class OnlineUserService {
         List<Map<String, Object>> list = new ArrayList<>();
         for (OnlineUserDto user : all) {
             Map<String,Object> map = new LinkedHashMap<>();
-            map.put("用户名", user.getUserName());
-            map.put("部门", user.getDept());
-            map.put("登录IP", user.getIp());
-            map.put("登录地点", user.getAddress());
-            map.put("浏览器", user.getBrowser());
-            map.put("登录日期", user.getLoginTime());
+            map.put("用戶名", user.getUserName());
+            map.put("部門", user.getDept());
+            map.put("登錄IP", user.getIp());
+            map.put("登錄地點", user.getAddress());
+            map.put("瀏覽器", user.getBrowser());
+            map.put("登錄日期", user.getLoginTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
@@ -138,7 +138,7 @@ public class OnlineUserService {
     }
 
     /**
-     * 根据用户名强退用户
+     * 根據用戶名強退用戶
      * @param username /
      */
     @Async

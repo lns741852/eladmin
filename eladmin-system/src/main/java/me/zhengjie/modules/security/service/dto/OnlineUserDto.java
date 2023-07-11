@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 在线用户
+ * 在線用戶
  * @author Zheng Jie
  */
 @Data
@@ -30,22 +30,22 @@ import java.util.Date;
 public class OnlineUserDto {
 
     /**
-     * 用户名
+     * 用戶名
      */
     private String userName;
 
     /**
-     * 昵称
+     * 昵稱
      */
     private String nickName;
 
     /**
-     * 岗位
+     * 崗位
      */
     private String dept;
 
     /**
-     * 浏览器
+     * 瀏覽器
      */
     private String browser;
 
@@ -65,7 +65,7 @@ public class OnlineUserDto {
     private String key;
 
     /**
-     * 登录时间
+     * 登錄時間
      */
     private Date loginTime;
 

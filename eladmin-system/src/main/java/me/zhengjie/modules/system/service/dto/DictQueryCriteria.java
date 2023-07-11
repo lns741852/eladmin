@@ -19,8 +19,7 @@ import lombok.Data;
 import me.zhengjie.annotation.Query;
 
 /**
- * @author Zheng Jie
- * 公共查询类
+ * 模糊查詢類
  */
 @Data
 public class DictQueryCriteria {

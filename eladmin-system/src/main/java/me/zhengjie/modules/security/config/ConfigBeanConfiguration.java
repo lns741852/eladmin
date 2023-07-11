@@ -22,9 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @apiNote 配置文件转换Pojo类的 统一配置 类
- * @author: liaojinlong
- * @date: 2020/6/10 19:04
+ * @description 讀取application.yml配置@ConfigurationProperties(prefix = "login")
  */
 @Configuration
 public class ConfigBeanConfiguration {

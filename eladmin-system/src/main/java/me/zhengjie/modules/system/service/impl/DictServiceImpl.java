@@ -36,8 +36,9 @@ import java.io.IOException;
 import java.util.*;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
+*
+ * 開啟緩存註解  ->@CacheConfig(cacheNames = "dict")
+ *
 */
 @Service
 @RequiredArgsConstructor
@@ -50,7 +51,12 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public PageResult<DictDto> queryAll(DictQueryCriteria dict, Pageable pageable){
+        //root = Dict
+        //query = DictQueryCriteria
+        //findAll  >  Specification > 重寫 toPredicate
         Page<Dict> page = dictRepository.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb), pageable);
+
+        //轉Dto
         return PageUtil.toPage(page.map(dictMapper::toDto));
     }
 

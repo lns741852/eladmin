@@ -24,9 +24,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
-*/
+ * @author Zheng Jie
+ * @date 2019-04-10
+ */
 @Entity
 @Getter
 @Setter
@@ -45,7 +45,7 @@ public class DictDetail extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "字典", hidden = true)
     private Dict dict;
 
-    @ApiModelProperty(value = "字典标签")
+    @ApiModelProperty(value = "字典標簽")
     private String label;
 
     @ApiModelProperty(value = "字典值")

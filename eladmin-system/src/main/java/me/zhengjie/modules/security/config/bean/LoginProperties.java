@@ -24,10 +24,8 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * 驗證碼配置文件
+ * 驗證碼參數配置
  *
- * @author liaojinlong
- * @date loginCode.length0loginCode.length0/6/10 17:loginCode.length6
  */
 @Data
 public class LoginProperties {

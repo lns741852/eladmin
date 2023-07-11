@@ -1,4 +1,4 @@
-#配置数据源
+#配置數據源
 spring:
   datasource:
     druid:
@@ -7,35 +7,35 @@ spring:
       url: jdbc:log4jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
       username: ${DB_USER:root}
       password: ${DB_PWD:123456}
-      # 初始连接数
+      # 初始連接數
       initial-size: 5
-      # 最小连接数
+      # 最小連接數
       min-idle: 15
-      # 最大连接数
+      # 最大連接數
       max-active: 30
-      # 获取连接超时时间
+      # 獲取連接超時時間
       max-wait: 5000
-      # 连接有效性检测时间
+      # 連接有效性檢測時間
       time-between-eviction-runs-millis: 60000
-      # 连接在池中最小生存的时间
+      # 連接在池中最小生存的時間
       min-evictable-idle-time-millis: 300000
-      # 连接在池中最大生存的时间
+      # 連接在池中最大生存的時間
       max-evictable-idle-time-millis: 900000
-      # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
+      # 指明連接是否被空閒連接回收器(如果有)進行檢驗.如果檢測失敗,則連接將被從池中去除
       test-while-idle: true
-      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
+      # 指明是否在從池中取出連接前進行檢驗,如果檢驗失敗, 則從池中去除連接並嘗試取出另一個
       test-on-borrow: true
-      # 是否在归还到池中前进行检验
+      # 是否在歸還到池中前進行檢驗
       test-on-return: false
-      # 检测连接是否有效
+      # 檢測連接是否有效
       validation-query: select 1
-      # 配置监控统计
+      # 配置監控統計
       webStatFilter:
         enabled: true
       stat-view-servlet:
         allow:
         enabled: true
-        # 控制台管理用户名和密码
+        # 控制台管理用戶名和密碼
         url-pattern: /druid/*
         reset-enable: false
         login-username: admin
@@ -43,7 +43,7 @@ spring:
       filter:
         stat:
           enabled: true
-          # 记录慢SQL
+          # 記錄慢SQL
           log-slow-sql: true
           slow-sql-millis: 1000
           merge-sql: true
@@ -51,65 +51,65 @@ spring:
           config:
             multi-statement-allow: true
 
-# 登录相关配置
+# 登錄相關配置
 login:
-  #  是否限制单用户登录
+  #  是否限制單用戶登錄
   single-login: false
-  # Redis用户登录缓存配置
+  # Redis用戶登錄緩存配置
   user-cache:
-    # 存活时间/秒
+    # 存活時間/秒
     idle-time: 21600
-  #  验证码
+  #  驗證碼
   login-code:
-    #  验证码类型配置 查看 LoginProperties 类
+    #  驗證碼類型配置 查看 LoginProperties 類
     code-type: arithmetic
-    #  登录图形验证码有效时间/分钟
+    #  登錄圖形驗證碼有效時間/分鐘
     expiration: 2
-    #  验证码高度
+    #  驗證碼高度
     width: 111
-    #  验证码宽度
+    #  驗證碼寬度
     height: 36
-    # 内容长度
+    # 內容長度
     length: 2
-    # 字体名称，为空则使用默认字体，如遇到线上乱码，设置其他字体即可
+    # 字體名稱，為空則使用默認字體，如遇到線上亂碼，設置其他字體即可
     font-name:
-    # 字体大小
+    # 字體大小
     font-size: 25
 
 #jwt
 jwt:
   header: Authorization
-  # 令牌前缀
+  # 令牌前綴
   token-start-with: Bearer
-  # 必须使用最少88位的Base64对该令牌进行编码
+  # 必須使用最少88位的Base64對該令牌進行編碼
   base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
-  # 令牌过期时间 此处单位/毫秒 ，默认2小时，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
+  # 令牌過期時間 此處單位/毫秒 ，默認2小時，可在此網站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
   token-validity-in-seconds: 7200000
-  # 在线用户key
+  # 在線用戶key
   online-key: "online-token:"
-  # 验证码
+  # 驗證碼
   code-key: "captcha-code:"
-  # token 续期检查时间范围（默认30分钟，单位默认毫秒），在token即将过期的一段时间内用户操作了，则给用户的token续期
+  # token 續期檢查時間範圍（默認30分鐘，單位默認毫秒），在token即將過期的一段時間內用戶操作了，則給用戶的token續期
   detect: 1800000
-  # 续期时间范围，默认 1小时，这里单位毫秒
+  # 續期時間範圍，默認 1小時，這里單位毫秒
   renew: 3600000
 
-#是否允许生成代码，生产环境设置为false
+#是否允許生成代碼，生產環境設置為false
 generator:
   enabled: false
 
-#如果生产环境要开启swagger，需要配置请求地址
+#如果生產環境要開啟swagger，需要配置請求地址
 #springfox:
 #  documentation:
 #    swagger:
 #      v2:
-#        host: # 接口域名或外网ip
+#        host: # 接口域名或外網ip
 
-#是否开启 swagger-ui
+#是否開啟 swagger-ui
 swagger:
   enabled: false
 
-# 文件存储路径
+# 文件存儲路徑
 file:
   mac:
     path: ~/file/

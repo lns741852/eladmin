@@ -19,15 +19,15 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.annotation.DataPermission;
+//import me.zhengjie.annotation.DataPermission;
 import me.zhengjie.annotation.Query;
 import javax.persistence.criteria.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @author Zheng Jie
- * @date 2019-6-4 14:59:48
+ * 通用模糊查詢，傳入(類別，自訂查詢類，固定類別CriteriaBuilder)
+ *
  */
 @Slf4j
 @SuppressWarnings({"unchecked","all"})
@@ -38,46 +38,50 @@ public class QueryHelp {
         if(query == null){
             return cb.and(list.toArray(new Predicate[0]));
         }
-        // 数据权限验证
-        DataPermission permission = query.getClass().getAnnotation(DataPermission.class);
-        if(permission != null){
-            // 获取数据权限
-            List<Long> dataScopes = SecurityUtils.getCurrentUserDataScope();
-            if(CollectionUtil.isNotEmpty(dataScopes)){
-                if(StringUtils.isNotBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
-                    Join join = root.join(permission.joinName(), JoinType.LEFT);
-                    list.add(getExpression(permission.fieldName(),join, root).in(dataScopes));
-                } else if (StringUtils.isBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
-                    list.add(getExpression(permission.fieldName(),null, root).in(dataScopes));
-                }
-            }
-        }
+        // 數據權限驗證
+//        DataPermission permission = query.getClass().getAnnotation(DataPermission.class);
+//        if(permission != null){
+//            // 獲取數據權限
+//            List<Long> dataScopes = SecurityUtils.getCurrentUserDataScope();
+//            if(CollectionUtil.isNotEmpty(dataScopes)){
+//                if(StringUtils.isNotBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
+//                    Join join = root.join(permission.joinName(), JoinType.LEFT);
+//                    list.add(getExpression(permission.fieldName(),join, root).in(dataScopes));
+//                } else if (StringUtils.isBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
+//                    list.add(getExpression(permission.fieldName(),null, root).in(dataScopes));
+//                }
+//            }
+//        }
         try {
             Map<String, Join> joinKey = new HashMap<>();
+            //反射獲取query對象
             List<Field> fields = getAllFields(query.getClass(), new ArrayList<>());
             for (Field field : fields) {
                 boolean accessible = field.isAccessible();
-                // 设置对象的访问权限，保证对private的属性的访
+                // 設置對象的訪問權限，保證對private的屬性的訪
                 field.setAccessible(true);
+                //獲取@Query註解類，註解的值會帶入
                 Query q = field.getAnnotation(Query.class);
                 if (q != null) {
                     String propName = q.propName();
                     String joinName = q.joinName();
                     String blurry = q.blurry();
                     String attributeName = isBlank(propName) ? field.getName() : propName;
+                    // 獲取參數類型
                     Class<?> fieldType = field.getType();
                     Object val = field.get(query);
                     if (ObjectUtil.isNull(val) || "".equals(val)) {
                         continue;
                     }
                     Join join = null;
-                    // 模糊多字段
+                    // 模糊多參數
                     if (ObjectUtil.isNotEmpty(blurry)) {
                         String[] blurrys = blurry.split(",");
                         List<Predicate> orPredicate = new ArrayList<>();
                         for (String s : blurrys) {
                             orPredicate.add(cb.like(root.get(s).as(String.class), "%" + val.toString() + "%"));
                         }
+                        //存入list
                         Predicate[] p = new Predicate[orPredicate.size()];
                         list.add(cb.or(orPredicate.toArray(p)));
                         continue;
@@ -115,6 +119,8 @@ public class QueryHelp {
                             joinKey.put(joinName, join);
                         }
                     }
+
+                   //暫時沒用到
                     switch (q.type()) {
                         case EQUAL:
                             list.add(cb.equal(getExpression(attributeName,join,root)
@@ -208,8 +214,16 @@ public class QueryHelp {
         return true;
     }
 
+
+    /**
+     *  反射
+     * @param clazz
+     * @param fields
+     * @return
+     */
     public static List<Field> getAllFields(Class clazz, List<Field> fields) {
         if (clazz != null) {
+           // 透過反射獲取參數  Field[] declaredFields = clazz.getDeclaredFields();
             fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
             getAllFields(clazz.getSuperclass(), fields);
         }

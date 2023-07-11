@@ -18,10 +18,8 @@ package me.zhengjie.modules.security.config.bean;
 import lombok.Data;
 
 /**
- * Jwt参数配置
+ * Jwt參數配置
  *
- * @author Zheng Jie
- * @date 2019年11月28日
  */
 @Data
 public class SecurityProperties {
@@ -32,37 +30,37 @@ public class SecurityProperties {
     private String header;
 
     /**
-     * 令牌前缀，最后留个空格 Bearer
+     * 令牌前綴，最後留個空格 Bearer
      */
     private String tokenStartWith;
 
     /**
-     * 必须使用最少88位的Base64对该令牌进行编码
+     * 必須使用最少88位的Base64對該令牌進行編碼
      */
     private String base64Secret;
 
     /**
-     * 令牌过期时间 此处单位/毫秒
+     * 令牌過期時間 此處單位/毫秒
      */
     private Long tokenValidityInSeconds;
 
     /**
-     * 在線用戶 key，根據 key 查询 redis 中在線用戶數據
+     * 在線用戶 key，根據 key 查詢 redis 中在線用戶數據
      */
     private String onlineKey;
 
     /**
-     * 验证码 key
+     * 驗證碼 key
      */
     private String codeKey;
 
     /**
-     * token 续期检查
+     * token 續期檢查
      */
     private Long detect;
 
     /**
-     * 续期时间
+     * 續期時間
      */
     private Long renew;
 

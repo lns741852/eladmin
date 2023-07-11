@@ -26,48 +26,48 @@ import java.util.List;
 import java.util.Set;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
-*/
+ * @author Zheng Jie
+ * @date 2019-04-10
+ */
 public interface DictService {
 
     /**
-     * 分页查询
-     * @param criteria 条件
-     * @param pageable 分页参数
+     * 分頁查詢
+     * @param criteria 條件
+     * @param pageable 分頁參數
      * @return /
      */
     PageResult<DictDto> queryAll(DictQueryCriteria criteria, Pageable pageable);
 
     /**
-     * 查询全部数据
+     * 查詢全部數據
      * @param dict /
      * @return /
      */
     List<DictDto> queryAll(DictQueryCriteria dict);
 
     /**
-     * 创建
+     * 創建
      * @param resources /
      * @return /
      */
     void create(Dict resources);
 
     /**
-     * 编辑
+     * 編輯
      * @param resources /
      */
     void update(Dict resources);
 
     /**
-     * 删除
+     * 刪除
      * @param ids /
      */
     void delete(Set<Long> ids);
 
     /**
-     * 导出数据
-     * @param queryAll 待导出的数据
+     * 導出數據
+     * @param queryAll 待導出的數據
      * @param response /
      * @throws IOException /
      */
