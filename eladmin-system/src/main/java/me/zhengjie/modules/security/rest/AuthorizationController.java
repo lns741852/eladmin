@@ -88,10 +88,13 @@ public class AuthorizationController {
         if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
             throw new BadRequestException("驗證碼錯誤");
         }
+        //登入認證
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
         // 生成令牌與第三方系統獲取令牌方式
         // UserDetails userDetails = userDetailsService.loadUserByUsername(userInfo.getUsername());
         // Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

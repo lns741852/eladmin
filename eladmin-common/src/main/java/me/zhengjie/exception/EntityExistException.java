@@ -18,11 +18,16 @@ package me.zhengjie.exception;
 import org.springframework.util.StringUtils;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-23
+ *  自訂異常
  */
 public class EntityExistException extends RuntimeException {
 
+    /**
+     *
+     * @param clazz 類別
+     * @param field 屬性
+     * @param val  數值
+     */
     public EntityExistException(Class clazz, String field, String val) {
         super(EntityExistException.generateMessage(clazz.getSimpleName(), field, val));
     }

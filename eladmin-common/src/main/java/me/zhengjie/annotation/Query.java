@@ -49,21 +49,23 @@ public @interface Query {
     String blurry() default "";
 
     enum Type {
-        // jie 2019/6/4 相等
+        // 相等
         EQUAL
-        // Dong ZhaoYang 2017/8/7 大於等於
+        //  大於等於
         , GREATER_THAN
-        // Dong ZhaoYang 2017/8/7 小於等於
+        //  小於等於
         , LESS_THAN
-        // Dong ZhaoYang 2017/8/7 中模糊查詢
+        //  中模糊查詢
         , INNER_LIKE
-        // Dong ZhaoYang 2017/8/7 左模糊查詢
+        //  左模糊查詢
         , LEFT_LIKE
-        // Dong ZhaoYang 2017/8/7 右模糊查詢
+        //  右模糊查詢
         , RIGHT_LIKE
-        // Dong ZhaoYang 2017/8/7 小於
+        // 大於
+        ,GREATER_THAN_NQ
+        //  小於
         , LESS_THAN_NQ
-        // jie 2019/6/4 包含
+        //  包含
         , IN
         // 不包含
         , NOT_IN
@@ -75,7 +77,7 @@ public @interface Query {
         ,NOT_NULL
         // 為空
         ,IS_NULL,
-        // Aborn Jiang 2022/06/01, 對應SQL: SELECT * FROM table WHERE FIND_IN_SET('querytag', table.tags);
+        //  對應SQL: SELECT * FROM table WHERE FIND_IN_SET('querytag', table.tags);
         FIND_IN_SET
     }
 

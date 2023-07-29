@@ -35,99 +35,99 @@ import java.util.Set;
 public interface UserService {
 
     /**
-     * 根据ID查询
+     * 根據ID查詢
      * @param id ID
      * @return /
      */
     UserDto findById(long id);
 
     /**
-     * 新增用户
+     * 新增用戶
      * @param resources /
      */
     void create(User resources);
 
     /**
-     * 编辑用户
+     * 編輯用戶
      * @param resources /
      * @throws Exception /
      */
     void update(User resources) throws Exception;
 
     /**
-     * 删除用户
+     * 刪除用戶
      * @param ids /
      */
     void delete(Set<Long> ids);
 
     /**
-     * 根据用户名查询
+     * 根據用戶名查詢
      * @param userName /
      * @return /
      */
     UserDto findByName(String userName);
 
     /**
-     * 根据用户名查询
+     * 根據用戶名查詢
      * @param userName /
      * @return /
      */
     UserLoginDto getLoginData(String userName);
 
     /**
-     * 修改密码
-     * @param username 用户名
-     * @param encryptPassword 密码
+     * 修改密碼
+     * @param username 用戶名
+     * @param encryptPassword 密碼
      */
     void updatePass(String username, String encryptPassword);
 
     /**
-     * 修改头像
+     * 修改頭像
      * @param file 文件
      * @return /
      */
     Map<String, String> updateAvatar(MultipartFile file);
 
     /**
-     * 修改邮箱
-     * @param username 用户名
-     * @param email 邮箱
+     * 修改郵箱
+     * @param username 用戶名
+     * @param email 郵箱
      */
     void updateEmail(String username, String email);
 
     /**
-     * 查询全部
-     * @param criteria 条件
-     * @param pageable 分页参数
+     * 查詢全部
+     * @param criteria 條件
+     * @param pageable 分頁參數
      * @return /
      */
     PageResult<UserDto> queryAll(UserQueryCriteria criteria, Pageable pageable);
 
     /**
-     * 查询全部不分页
-     * @param criteria 条件
+     * 查詢全部不分頁
+     * @param criteria 條件
      * @return /
      */
     List<UserDto> queryAll(UserQueryCriteria criteria);
 
     /**
-     * 导出数据
-     * @param queryAll 待导出的数据
+     * 導出數據
+     * @param queryAll 待導出的數據
      * @param response /
      * @throws IOException /
      */
     void download(List<UserDto> queryAll, HttpServletResponse response) throws IOException;
 
     /**
-     * 用户自助修改资料
+     * 用戶自助修改資料
      * @param resources /
      */
     void updateCenter(User resources);
 
     /**
-     * 重置密码
-     * @param ids 用户id
-     * @param pwd 密码
+     * 重置密碼
+     * @param ids 用戶id
+     * @param pwd 密碼
      */
     void resetPwd(Set<Long> ids, String pwd);
 }

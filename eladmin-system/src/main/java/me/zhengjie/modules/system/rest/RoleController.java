@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "系统：角色管理")
+@Api(tags = "系統：角色管理")
 @RequestMapping("/api/roles")
 public class RoleController {
 
@@ -55,14 +55,14 @@ public class RoleController {
 
     private static final String ENTITY_NAME = "role";
 
-    @ApiOperation("获取单个role")
+    @ApiOperation("獲取單個role")
     @GetMapping(value = "/{id}")
     @PreAuthorize("@el.check('roles:list')")
     public ResponseEntity<RoleDto> findRoleById(@PathVariable Long id){
         return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
     }
 
-    @ApiOperation("导出角色数据")
+    @ApiOperation("導出角色數據")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('role:list')")
     public void exportRole(HttpServletResponse response, RoleQueryCriteria criteria) throws IOException {
@@ -76,14 +76,14 @@ public class RoleController {
         return new ResponseEntity<>(roleService.queryAll(),HttpStatus.OK);
     }
 
-    @ApiOperation("查询角色")
+    @ApiOperation("查詢角色")
     @GetMapping
     @PreAuthorize("@el.check('roles:list')")
     public ResponseEntity<PageResult<RoleDto>> queryRole(RoleQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(roleService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
-    @ApiOperation("获取用户级别")
+    @ApiOperation("獲取用戶級別")
     @GetMapping(value = "/level")
     public ResponseEntity<Object> getRoleLevel(){
         return new ResponseEntity<>(Dict.create().set("level", getLevels(null)),HttpStatus.OK);
@@ -112,8 +112,8 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Log("修改角色菜单")
-    @ApiOperation("修改角色菜单")
+    @Log("修改角色菜單")
+    @ApiOperation("修改角色菜單")
     @PutMapping(value = "/menu")
     @PreAuthorize("@el.check('roles:edit')")
     public ResponseEntity<Object> updateRoleMenu(@RequestBody Role resources){
@@ -123,8 +123,8 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Log("删除角色")
-    @ApiOperation("删除角色")
+    @Log("刪除角色")
+    @ApiOperation("刪除角色")
     @DeleteMapping
     @PreAuthorize("@el.check('roles:del')")
     public ResponseEntity<Object> deleteRole(@RequestBody Set<Long> ids){
@@ -132,14 +132,14 @@ public class RoleController {
             RoleDto role = roleService.findById(id);
             getLevels(role.getLevel());
         }
-        // 验证是否被用户关联
+        // 驗證是否被用戶關聯
         roleService.verification(ids);
         roleService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
-     * 获取用户的角色级别
+     * 獲取用戶的角色級別
      * @return /
      */
     private int getLevels(Integer level){
@@ -147,7 +147,7 @@ public class RoleController {
         int min = Collections.min(levels);
         if(level != null){
             if(level < min){
-                throw new BadRequestException("权限不足，你的角色级别：" + min + "，低于操作的角色级别：" + level);
+                throw new BadRequestException("權限不足，你的角色級別：" + min + "，低於操作的角色級別：" + level);
             }
         }
         return min;

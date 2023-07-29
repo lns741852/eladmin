@@ -16,6 +16,7 @@
 package me.zhengjie.modules.system.service.dto;
 
 import lombok.Data;
+import me.zhengjie.annotation.DataPermission;
 import me.zhengjie.annotation.Query;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -28,6 +29,7 @@ import java.util.Set;
  * @date 2018-11-23
  */
 @Data
+@DataPermission(joinName = "dept", fieldName = "id")
 public class UserQueryCriteria implements Serializable {
 
     @Query

@@ -19,15 +19,14 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
-//import me.zhengjie.annotation.DataPermission;
+import me.zhengjie.annotation.DataPermission;
 import me.zhengjie.annotation.Query;
 import javax.persistence.criteria.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * 通用模糊查詢，傳入(類別，自訂查詢類，固定類別CriteriaBuilder)
- *
+ * 通用查詢、傳入(類別，自訂查詢類，固定類別CriteriaBuilder)
  */
 @Slf4j
 @SuppressWarnings({"unchecked","all"})
@@ -39,19 +38,19 @@ public class QueryHelp {
             return cb.and(list.toArray(new Predicate[0]));
         }
         // 數據權限驗證
-//        DataPermission permission = query.getClass().getAnnotation(DataPermission.class);
-//        if(permission != null){
-//            // 獲取數據權限
-//            List<Long> dataScopes = SecurityUtils.getCurrentUserDataScope();
-//            if(CollectionUtil.isNotEmpty(dataScopes)){
-//                if(StringUtils.isNotBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
-//                    Join join = root.join(permission.joinName(), JoinType.LEFT);
-//                    list.add(getExpression(permission.fieldName(),join, root).in(dataScopes));
-//                } else if (StringUtils.isBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
-//                    list.add(getExpression(permission.fieldName(),null, root).in(dataScopes));
-//                }
-//            }
-//        }
+        DataPermission permission = query.getClass().getAnnotation(DataPermission.class);
+        if(permission != null){
+            // 獲取數據權限
+            List<Long> dataScopes = SecurityUtils.getCurrentUserDataScope();
+            if(CollectionUtil.isNotEmpty(dataScopes)){
+                if(StringUtils.isNotBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
+                    Join join = root.join(permission.joinName(), JoinType.LEFT);
+                    list.add(getExpression(permission.fieldName(),join, root).in(dataScopes));
+                } else if (StringUtils.isBlank(permission.joinName()) && StringUtils.isNotBlank(permission.fieldName())) {
+                    list.add(getExpression(permission.fieldName(),null, root).in(dataScopes));
+                }
+            }
+        }
         try {
             Map<String, Join> joinKey = new HashMap<>();
             //反射獲取query對象
@@ -60,12 +59,13 @@ public class QueryHelp {
                 boolean accessible = field.isAccessible();
                 // 設置對象的訪問權限，保證對private的屬性的訪
                 field.setAccessible(true);
-                //獲取@Query註解類，註解的值會帶入
+                //獲取xxxQueryCriteria中的@Query註解類，註解的值會帶入Query類中
                 Query q = field.getAnnotation(Query.class);
                 if (q != null) {
                     String propName = q.propName();
                     String joinName = q.joinName();
                     String blurry = q.blurry();
+                    // field.getName() 固定等於 'name'
                     String attributeName = isBlank(propName) ? field.getName() : propName;
                     // 獲取參數類型
                     Class<?> fieldType = field.getType();
@@ -86,6 +86,8 @@ public class QueryHelp {
                         list.add(cb.or(orPredicate.toArray(p)));
                         continue;
                     }
+
+                    //關聯配置
                     if (ObjectUtil.isNotEmpty(joinName)) {
                         join = joinKey.get(joinName);
                         if(join == null){
@@ -93,7 +95,7 @@ public class QueryHelp {
                             for (String name : joinNames) {
                                 switch (q.join()) {
                                     case LEFT:
-                                        if(ObjectUtil.isNotNull(join) && ObjectUtil.isNotNull(val)){
+                                        if(ObjectUtil.isNotNull(join) && ObjectUtil.isNotNull(val)){    //null、 user_status
                                             join = join.join(name, JoinType.LEFT);
                                         } else {
                                             join = root.join(name, JoinType.LEFT);
@@ -120,9 +122,10 @@ public class QueryHelp {
                         }
                     }
 
-                   //暫時沒用到
+                   //動態查詢
                     switch (q.type()) {
                         case EQUAL:
+                            // 可以做比較的類型 =>(Class<? extends Comparable>) fieldType
                             list.add(cb.equal(getExpression(attributeName,join,root)
                                     .as((Class<? extends Comparable>) fieldType),val));
                             break;
@@ -136,6 +139,10 @@ public class QueryHelp {
                             break;
                         case LESS_THAN_NQ:
                             list.add(cb.lessThan(getExpression(attributeName,join,root)
+                                    .as((Class<? extends Comparable>) fieldType), (Comparable) val));
+                            break;
+                        case GREATER_THAN_NQ:
+                            list.add(cb.greaterThan(getExpression(attributeName,join,root)
                                     .as((Class<? extends Comparable>) fieldType), (Comparable) val));
                             break;
                         case INNER_LIKE:
@@ -192,6 +199,10 @@ public class QueryHelp {
         return cb.and(list.toArray(new Predicate[size]));
     }
 
+
+    /**
+     * 判斷是否是首次查詢
+     */
     @SuppressWarnings("unchecked")
     private static <T, R> Expression<T> getExpression(String attributeName, Join join, Root<R> root) {
         if (ObjectUtil.isNotEmpty(join)) {
@@ -201,12 +212,23 @@ public class QueryHelp {
         }
     }
 
+
+    /**
+     * 判斷是否有特殊符號及空白
+     * 可以存String、StringBuffer、StringBuilder => CharSequence
+     */
     private static boolean isBlank(final CharSequence cs) {
         int strLen;
         if (cs == null || (strLen = cs.length()) == 0) {
             return true;
         }
         for (int i = 0; i < strLen; i++) {
+
+            /**
+             * char ch1 = ' ';
+             * char ch2 = '\t';
+             * char ch3 = '\n';
+             */
             if (!Character.isWhitespace(cs.charAt(i))) {
                 return false;
             }

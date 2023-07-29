@@ -18,7 +18,8 @@ package me.zhengjie.modules.security.config.bean;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import lombok.Data;
-import me.zhengjie.exception.BadConfigurationException;
+//import me.zhengjie.exception.BadConfigurationException;
+import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.utils.StringUtils;
 import java.awt.*;
 import java.util.Objects;
@@ -83,7 +84,8 @@ public class LoginProperties {
                 captcha.setLen(loginCode.getLength());
                 break;
             default:
-                throw new BadConfigurationException("驗證碼配置錯誤！請查看 LoginCodeEnum ");
+                //throw new BadConfigurationException("驗證碼配置錯誤！請查看 LoginCodeEnum ");
+                throw new BadRequestException("驗證碼配置錯誤！請查看 LoginCodeEnum ");
         }
         if(StringUtils.isNotBlank(loginCode.getFontName())){
             captcha.setFont(new Font(loginCode.getFontName(), Font.PLAIN, loginCode.getFontSize()));

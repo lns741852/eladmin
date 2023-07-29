@@ -26,11 +26,17 @@ import me.zhengjie.modules.system.repository.DictRepository;
 import me.zhengjie.modules.system.service.DictService;
 import me.zhengjie.modules.system.service.dto.DictDto;
 import me.zhengjie.modules.system.service.mapstruct.DictMapper;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;

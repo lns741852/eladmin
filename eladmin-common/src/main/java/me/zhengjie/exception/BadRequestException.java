@@ -20,14 +20,12 @@ import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-23
- * 统一异常处理
+ * 通用異常
  */
 @Getter
 public class BadRequestException extends RuntimeException{
 
-    private Integer status = BAD_REQUEST.value();
+    private Integer status = BAD_REQUEST.value();   //400
 
     public BadRequestException(String msg){
         super(msg);

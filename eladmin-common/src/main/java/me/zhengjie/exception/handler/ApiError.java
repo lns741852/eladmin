@@ -17,19 +17,20 @@ package me.zhengjie.exception.handler;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
- * @author Zheng Jie
- * @date 2018-11-23
+ * 異常實體類
  */
 @Data
 class ApiError {
 
     private Integer status = 400;
-    private Long timestamp;
+    private LocalDateTime  timestamp;
     private String message;
 
     private ApiError() {
-        timestamp = System.currentTimeMillis();
+        timestamp = LocalDateTime.now();;
     }
 
     public static ApiError error(String message){

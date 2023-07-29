@@ -23,6 +23,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -46,14 +47,14 @@ public class User extends BaseEntity implements Serializable {
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @ApiModelProperty(value = "用户角色")
+    @ApiModelProperty(value = "用戶角色")
     @JoinTable(name = "sys_users_roles",
             joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "role_id")})
     private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @ApiModelProperty(value = "用户岗位")
+    @ApiModelProperty(value = "用戶崗位")
     @JoinTable(name = "sys_users_jobs",
             joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "job_id",referencedColumnName = "job_id")})
@@ -61,48 +62,48 @@ public class User extends BaseEntity implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "dept_id")
-    @ApiModelProperty(value = "用户部门")
+    @ApiModelProperty(value = "用戶部門")
     private Dept dept;
 
     @NotBlank
     @Column(unique = true)
-    @ApiModelProperty(value = "用户名称")
+    @ApiModelProperty(value = "用戶名稱")
     private String username;
 
     @NotBlank
-    @ApiModelProperty(value = "用户昵称")
+    @ApiModelProperty(value = "用戶昵稱")
     private String nickName;
 
     @Email
     @NotBlank
-    @ApiModelProperty(value = "邮箱")
+    @ApiModelProperty(value = "郵箱")
     private String email;
 
     @NotBlank
-    @ApiModelProperty(value = "电话号码")
+    @ApiModelProperty(value = "手機號碼")
     private String phone;
 
-    @ApiModelProperty(value = "用户性别")
+    @ApiModelProperty(value = "用戶性別")
     private String gender;
 
-    @ApiModelProperty(value = "头像真实名称",hidden = true)
+    @ApiModelProperty(value = "頭像真實名稱",hidden = true)
     private String avatarName;
 
-    @ApiModelProperty(value = "头像存储的路径", hidden = true)
+    @ApiModelProperty(value = "頭像存儲的路徑", hidden = true)
     private String avatarPath;
 
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密碼")
     private String password;
 
     @NotNull
-    @ApiModelProperty(value = "是否启用")
+    @ApiModelProperty(value = "是否啟用")
     private Boolean enabled;
 
-    @ApiModelProperty(value = "是否为admin账号", hidden = true)
+    @ApiModelProperty(value = "是否為admin賬號", hidden = true)
     private Boolean isAdmin = false;
 
     @Column(name = "pwd_reset_time")
-    @ApiModelProperty(value = "最后修改密码的时间", hidden = true)
+    @ApiModelProperty(value = "最後修改密碼的時間", hidden = true)
     private Date pwdResetTime;
 
     @Override

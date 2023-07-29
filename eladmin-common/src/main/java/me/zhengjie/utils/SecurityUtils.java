@@ -29,7 +29,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 /**
- * 获取当前登录的用户
+ * 獲取當前登錄的用戶
  * @author Zheng Jie
  * @date 2019-01-17
  */
@@ -37,7 +37,7 @@ import java.util.List;
 public class SecurityUtils {
 
     /**
-     * 获取当前登录的用户
+     * 獲取當前登錄的用戶
      * @return UserDetails
      */
     public static UserDetails getCurrentUser() {
@@ -46,48 +46,48 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取系统用户名称
+     * 獲取系統用戶名稱
      *
-     * @return 系统用户名称
+     * @return 系統用戶名稱
      */
     public static String getCurrentUsername() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            throw new BadRequestException(HttpStatus.UNAUTHORIZED, "当前登录状态过期");
+            throw new BadRequestException(HttpStatus.UNAUTHORIZED, "當前登錄狀態過期");
         }
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return userDetails.getUsername();
         }
-        throw new BadRequestException(HttpStatus.UNAUTHORIZED, "找不到当前登录的信息");
+        throw new BadRequestException(HttpStatus.UNAUTHORIZED, "找不到當前登錄的信息");
     }
 
     /**
-     * 获取系统用户ID
-     * @return 系统用户ID
+     * 獲取系統用戶ID
+     * @return 系統用戶ID
      */
     public static Long getCurrentUserId() {
         UserDetails userDetails = getCurrentUser();
-        // 将 Java 对象转换为 JSONObject 对象
+        // 將 Java 對象轉換為 JSONObject 對象
         JSONObject jsonObject = (JSONObject) JSON.toJSON(userDetails);
         return jsonObject.getJSONObject("user").getLong("id");
     }
 
     /**
-     * 获取当前用户的数据权限
+     * 獲取當前用戶的數據權限
      * @return /
      */
     public static List<Long> getCurrentUserDataScope(){
         UserDetails userDetails = getCurrentUser();
-        // 将 Java 对象转换为 JSONObject 对象
+        // 將 Java 對象轉換為 JSONObject 對象
         JSONObject jsonObject = (JSONObject) JSON.toJSON(userDetails);
         JSONArray jsonArray = jsonObject.getJSONArray("dataScopes");
         return JSON.parseArray(jsonArray.toJSONString(), Long.class);
     }
 
     /**
-     * 获取数据权限级别
-     * @return 级别
+     * 獲取數據權限級別
+     * @return 級別
      */
     public static String getDataScopeType() {
         List<Long> dataScopes = getCurrentUserDataScope();

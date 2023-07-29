@@ -72,7 +72,7 @@ public class UserCacheManager {
     @Async
     public void cleanUserCache(String userName) {
         if (StringUtils.isNotEmpty(userName)) {
-            // 請除數據
+            // 清除數據
             redisUtils.del(LoginProperties.cacheKey + userName);
         }
     }

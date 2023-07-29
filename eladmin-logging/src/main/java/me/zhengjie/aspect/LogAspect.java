@@ -49,23 +49,23 @@ public class LogAspect {
     }
 
     /**
-     * 配置切入点
+     * 配置切入點 @Log註解
      */
     @Pointcut("@annotation(me.zhengjie.annotation.Log)")
     public void logPointcut() {
-        // 该方法无方法体,主要为了让同类中其他方法使用此切入点
+        // 該方法無方法體,主要為了讓同類中其他方法使用此切入點
     }
 
     /**
-     * 配置环绕通知,使用在方法logPointcut()上注册的切入点
+     * 配置環繞通知(切入點前後)
      *
-     * @param joinPoint join point for advice
      */
     @Around("logPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result;
         currentTime.set(System.currentTimeMillis());
         result = joinPoint.proceed();
+        //計時
         SysLog sysLog = new SysLog("INFO",System.currentTimeMillis() - currentTime.get());
         currentTime.remove();
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
@@ -74,7 +74,7 @@ public class LogAspect {
     }
 
     /**
-     * 配置异常通知
+     * 配置異常通知
      *
      * @param joinPoint join point for advice
      * @param e exception

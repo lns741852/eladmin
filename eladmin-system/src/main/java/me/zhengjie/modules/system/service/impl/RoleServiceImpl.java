@@ -35,6 +35,7 @@ import me.zhengjie.modules.system.service.mapstruct.RoleMapper;
 import me.zhengjie.modules.system.service.mapstruct.RoleSmallMapper;
 import me.zhengjie.utils.*;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,6 +80,10 @@ public class RoleServiceImpl implements RoleService {
         return PageUtil.toPage(page.map(roleMapper::toDto));
     }
 
+
+    /**
+     * 查詢發現緩存版本有更才調用方法=> @Cacheable(key = "'id:' + #p0")
+     */
     @Override
     @Cacheable(key = "'id:' + #p0")
     @Transactional(rollbackFor = Exception.class)
@@ -97,7 +102,12 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(resources);
     }
 
+
+    /**
+     * 修改當下更新緩存 =>@CachePut(key = "'id:' + #resources.id")
+     */
     @Override
+    @CachePut(key = "'id:' + #resources.id")
     @Transactional(rollbackFor = Exception.class)
     public void update(Role resources) {
         Role role = roleRepository.findById(resources.getId()).orElseGet(Role::new);
@@ -114,7 +124,7 @@ public class RoleServiceImpl implements RoleService {
         role.setDepts(resources.getDepts());
         role.setLevel(resources.getLevel());
         roleRepository.save(role);
-        // 更新相关缓存
+        // 更新相關緩存
         delCaches(role.getId(), null);
     }
 
@@ -122,7 +132,7 @@ public class RoleServiceImpl implements RoleService {
     public void updateMenu(Role resources, RoleDto roleDTO) {
         Role role = roleMapper.toEntity(roleDTO);
         List<User> users = userRepository.findByRoleId(role.getId());
-        // 更新菜单
+        // 更新菜單
         role.setMenus(resources.getMenus());
         delCaches(resources.getId(), users);
         roleRepository.save(role);
@@ -131,7 +141,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void untiedMenu(Long menuId) {
-        // 更新菜单
+        // 更新菜單
         roleRepository.untiedMenu(menuId);
     }
 
@@ -139,7 +149,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Long> ids) {
         for (Long id : ids) {
-            // 更新相关缓存
+            // 更新相關緩存
             delCaches(id, null);
         }
         roleRepository.deleteAllByIdIn(ids);
@@ -166,7 +176,7 @@ public class RoleServiceImpl implements RoleService {
     @Cacheable(key = "'auth:' + #p0.id")
     public List<AuthorityDto> mapToGrantedAuthorities(UserDto user) {
         Set<String> permissions = new HashSet<>();
-        // 如果是管理员直接返回
+        // 如果是管理員直接返回
         if (user.getIsAdmin()) {
             permissions.add("admin");
             return permissions.stream().map(AuthorityDto::new)
@@ -185,10 +195,10 @@ public class RoleServiceImpl implements RoleService {
         List<Map<String, Object>> list = new ArrayList<>();
         for (RoleDto role : roles) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("角色名称", role.getName());
-            map.put("角色级别", role.getLevel());
+            map.put("角色名稱", role.getName());
+            map.put("角色級別", role.getLevel());
             map.put("描述", role.getDescription());
-            map.put("创建日期", role.getCreateTime());
+            map.put("創建日期", role.getCreateTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
@@ -197,7 +207,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void verification(Set<Long> ids) {
         if (userRepository.countByRoles(ids) > 0) {
-            throw new BadRequestException("所选角色存在用户关联，请解除关联再试！");
+            throw new BadRequestException("所選角色存在用戶關聯，請解除關聯再試！");
         }
     }
 
@@ -207,7 +217,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 清理缓存
+     * 清理緩存
      * @param id /
      */
     public void delCaches(Long id, List<User> users) {

@@ -39,7 +39,7 @@ public class SysLog implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** 操作用户 */
+    /** 操作用戶 */
     private String username;
 
     /** 描述 */
@@ -48,28 +48,28 @@ public class SysLog implements Serializable {
     /** 方法名 */
     private String method;
 
-    /** 参数 */
+    /** 參數 */
     private String params;
 
-    /** 日志类型 */
+    /** 日志類型 */
     private String logType;
 
-    /** 请求ip */
+    /** 請求ip */
     private String requestIp;
 
     /** 地址 */
     private String address;
 
-    /** 浏览器  */
+    /** 瀏覽器  */
     private String browser;
 
-    /** 请求耗时 */
+    /** 請求耗時 */
     private Long time;
 
-    /** 异常详细  */
+    /** 異常詳細  */
     private byte[] exceptionDetail;
 
-    /** 创建日期 */
+    /** 創建日期 */
     @CreationTimestamp
     private Timestamp createTime;
 

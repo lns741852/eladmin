@@ -20,7 +20,7 @@ import cn.hutool.core.util.ObjectUtil;
 import me.zhengjie.exception.BadRequestException;
 
 /**
- * 验证工具
+ * 驗證工具
  *
  * @author Zheng Jie
  * @date 2018-11-23
@@ -28,7 +28,7 @@ import me.zhengjie.exception.BadRequestException;
 public class ValidationUtil {
 
     /**
-     * 验证空
+     * 驗證空
      */
     public static void isNull(Object obj, String entity, String parameter , Object value){
         if(ObjectUtil.isNull(obj)){
@@ -37,10 +37,10 @@ public class ValidationUtil {
         }
     }
 
-  /**
-   * 验证是否为邮箱
-   */
-  public static boolean isEmail(String email) {
-    return Validator.isEmail(email);
-  }
+    /**
+     * 驗證是否為郵箱
+     */
+    public static boolean isEmail(String email) {
+        return Validator.isEmail(email);
+    }
 }

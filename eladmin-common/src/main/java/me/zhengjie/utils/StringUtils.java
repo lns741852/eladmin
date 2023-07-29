@@ -30,7 +30,7 @@ import java.util.Enumeration;
 
 /**
  * @author Zheng Jie
- * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
+ * 字符串工具類, 繼承org.apache.commons.lang3.StringUtils類
  */
 @Slf4j
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
@@ -44,7 +44,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     private final static Ip2regionSearcher IP_SEARCHER = SpringContextHolder.getBean(Ip2regionSearcher.class);
 
     /**
-     * 驼峰命名法工具
+     * 駝峰命名法工具
      *
      * @return toCamelCase(" hello_world ") == "helloWorld"
      * toCapitalizeCamelCase("hello_world") == "HelloWorld"
@@ -76,7 +76,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 驼峰命名法工具
+     * 駝峰命名法工具
      *
      * @return toCamelCase(" hello_world ") == "helloWorld"
      * toCapitalizeCamelCase("hello_world") == "HelloWorld"
@@ -91,7 +91,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 驼峰命名法工具
+     * 駝峰命名法工具
      *
      * @return toCamelCase(" hello_world ") == "helloWorld"
      * toCapitalizeCamelCase("hello_world") == "HelloWorld"
@@ -129,9 +129,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 获取ip地址
+     * 獲取ip地址
      */
     public static String getIp(HttpServletRequest request) {
+        //嘗試在各種header中獲取IP
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
@@ -148,8 +149,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             ip = ip.split(",")[0];
         }
         if (localhost.equals(ip)) {
-            // 获取本机真正的ip地址
             try {
+                // 獲取本機真正的ip地址
                 ip = InetAddress.getLocalHost().getHostAddress();
             } catch (UnknownHostException e) {
                 log.error(e.getMessage(), e);
@@ -159,7 +160,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 根据ip获取详细地址
+     * 根據ip獲取詳細地址
      */
     public static String getCityInfo(String ip) {
         IpInfo ipInfo = IP_SEARCHER.memorySearch(ip);
@@ -169,14 +170,18 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return null;
     }
 
+    /**
+     * 獲取瀏覽器及版本
+     */
     public static String getBrowser(HttpServletRequest request) {
+        //UserAgentUtil解析工具
         UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
         String browser = ua.getBrowser().toString() + " " + ua.getVersion();
         return browser.replace(".0.0.0","");
     }
 
     /**
-     * 获得当天是周几
+     * 獲得當天是周幾
      */
     public static String getWeekDay() {
         String[] weekDays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
@@ -191,26 +196,26 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     }
 
     /**
-     * 获取当前机器的IP
+     * 獲取當前機器的IP
      *
      * @return /
      */
     public static String getLocalIp() {
         try {
             InetAddress candidateAddress = null;
-            // 遍历所有的网络接口
+            // 遍歷所有的網絡接口
             for (Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces(); interfaces.hasMoreElements();) {
                 NetworkInterface anInterface = interfaces.nextElement();
-                // 在所有的接口下再遍历IP
+                // 在所有的接口下再遍歷IP
                 for (Enumeration<InetAddress> inetAddresses = anInterface.getInetAddresses(); inetAddresses.hasMoreElements();) {
                     InetAddress inetAddr = inetAddresses.nextElement();
-                    // 排除loopback类型地址
+                    // 排除loopback類型地址
                     if (!inetAddr.isLoopbackAddress()) {
                         if (inetAddr.isSiteLocalAddress()) {
                             // 如果是site-local地址，就是它了
                             return inetAddr.getHostAddress();
                         } else if (candidateAddress == null) {
-                            // site-local类型的地址未被发现，先记录候选地址
+                            // site-local類型的地址未被發現，先記錄候選地址
                             candidateAddress = inetAddr;
                         }
                     }
@@ -219,7 +224,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             if (candidateAddress != null) {
                 return candidateAddress.getHostAddress();
             }
-            // 如果没有发现 non-loopback地址.只能用最次选的方案
+            // 如果沒有發現 non-loopback地址.只能用最次選的方案
             InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();
             if (jdkSuppliedAddress == null) {
                 return "";

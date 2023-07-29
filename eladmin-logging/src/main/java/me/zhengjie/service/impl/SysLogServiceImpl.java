@@ -20,6 +20,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.annotation.Log;
 import me.zhengjie.domain.SysLog;
 import me.zhengjie.repository.LogRepository;
 import me.zhengjie.service.SysLogService;
@@ -79,24 +80,32 @@ public class SysLogServiceImpl implements SysLogService {
     @Transactional(rollbackFor = Exception.class)
     public void save(String username, String browser, String ip, ProceedingJoinPoint joinPoint, SysLog sysLog) {
         if (sysLog == null) {
-            throw new IllegalArgumentException("Log 不能为 null!");
+            throw new IllegalArgumentException("Log 不能為 null!");
         }
+        
+        //切入點獲取@Log
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        me.zhengjie.annotation.Log aopLog = method.getAnnotation(me.zhengjie.annotation.Log.class);
+        Log annotation = method.getAnnotation(Log.class);
 
-        // 方法路径
+
+        /**
+         * 方法路徑
+         * 方法路徑 => joinPoint.getTarget().getClass().getName()
+         * 方法名稱 => joinPoint.getSignature().getName()
+         */
         String methodName = joinPoint.getTarget().getClass().getName() + "." + signature.getName() + "()";
 
-        // 描述
-        sysLog.setDescription(aopLog.value());
-        
+        // 描述 => @Log("")
+        sysLog.setDescription(annotation.value());
+
         sysLog.setRequestIp(ip);
-        sysLog.setAddress(StringUtils.getCityInfo(sysLog.getRequestIp()));
+      // sysLog.setAddress(StringUtils.getCityInfo(sysLog.getRequestIp()));
+        sysLog.setAddress("-");
         sysLog.setMethod(methodName);
         sysLog.setUsername(username);
         sysLog.setParams(getParameter(method, joinPoint.getArgs()));
-        // 记录登录用户，隐藏密码信息
+        // 記錄登錄用戶，隱藏密碼信息
         if(signature.getName().equals("login") && StringUtils.isNotEmpty(sysLog.getParams())){
             JSONObject obj = JSON.parseObject(sysLog.getParams());
             sysLog.setUsername(obj.getString("username"));
@@ -107,22 +116,22 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     /**
-     * 根据方法和传入的参数获取请求参数
+     * 根據方法和傳入的參數獲取請求參數
      */
     private String getParameter(Method method, Object[] args) {
         List<Object> argList = new ArrayList<>();
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
-            // 过滤掉不能序列化的类型: MultiPartFile
+            // 過濾掉不能序列化的類型: MultiPartFile
             if (args[i] instanceof MultipartFile) {
                 continue;
             }
-            //将RequestBody注解修饰的参数作为请求参数
+            //將RequestBody注解修飾的參數作為請求參數
             RequestBody requestBody = parameters[i].getAnnotation(RequestBody.class);
             if (requestBody != null) {
                 argList.add(args[i]);
             }
-            //将RequestParam注解修饰的参数作为请求参数
+            //將RequestParam注解修飾的參數作為請求參數
             RequestParam requestParam = parameters[i].getAnnotation(RequestParam.class);
             if (requestParam != null) {
                 Map<String, Object> map = new HashMap<>(2);
@@ -153,14 +162,14 @@ public class SysLogServiceImpl implements SysLogService {
         List<Map<String, Object>> list = new ArrayList<>();
         for (SysLog sysLog : sysLogs) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("用户名", sysLog.getUsername());
+            map.put("用戶名", sysLog.getUsername());
             map.put("IP", sysLog.getRequestIp());
-            map.put("IP来源", sysLog.getAddress());
+            map.put("IP來源", sysLog.getAddress());
             map.put("描述", sysLog.getDescription());
-            map.put("浏览器", sysLog.getBrowser());
-            map.put("请求耗时/毫秒", sysLog.getTime());
-            map.put("异常详情", new String(ObjectUtil.isNotNull(sysLog.getExceptionDetail()) ? sysLog.getExceptionDetail() : "".getBytes()));
-            map.put("创建日期", sysLog.getCreateTime());
+            map.put("瀏覽器", sysLog.getBrowser());
+            map.put("請求耗時/毫秒", sysLog.getTime());
+            map.put("異常詳情", new String(ObjectUtil.isNotNull(sysLog.getExceptionDetail()) ? sysLog.getExceptionDetail() : "".getBytes()));
+            map.put("創建日期", sysLog.getCreateTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

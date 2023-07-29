@@ -38,26 +38,30 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @author Zheng Jie
-* @date 2019-04-10
-*/
+ * @author Zheng Jie
+ * @date 2019-04-10
+ */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "系统：字典详情管理")
+@Api(tags = "系統：字典詳情管理")
 @RequestMapping("/api/dictDetail")
 public class DictDetailController {
 
     private final DictDetailService dictDetailService;
     private static final String ENTITY_NAME = "dictDetail";
 
-    @ApiOperation("查询字典详情")
+
+    /**
+     *  升序、指定欄位dictSort =>  @PageableDefault(sort = {"dictSort"}, direction = Sort.Direction.ASC) Pageable pageable
+     */
+    @ApiOperation("查詢字典詳情")
     @GetMapping
     public ResponseEntity<PageResult<DictDetailDto>> queryDictDetail(DictDetailQueryCriteria criteria,
                                                                      @PageableDefault(sort = {"dictSort"}, direction = Sort.Direction.ASC) Pageable pageable){
         return new ResponseEntity<>(dictDetailService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
-    @ApiOperation("查询多个字典详情")
+    @ApiOperation("查詢多個字典詳情")
     @GetMapping(value = "/map")
     public ResponseEntity<Object> getDictDetailMaps(@RequestParam String dictName){
         String[] names = dictName.split("[,，]");
@@ -68,8 +72,8 @@ public class DictDetailController {
         return new ResponseEntity<>(dictMap, HttpStatus.OK);
     }
 
-    @Log("新增字典详情")
-    @ApiOperation("新增字典详情")
+    @Log("新增字典詳情")
+    @ApiOperation("新增字典詳情")
     @PostMapping
     @PreAuthorize("@el.check('dict:add')")
     public ResponseEntity<Object> createDictDetail(@Validated @RequestBody DictDetail resources){
@@ -80,8 +84,8 @@ public class DictDetailController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Log("修改字典详情")
-    @ApiOperation("修改字典详情")
+    @Log("修改字典詳情")
+    @ApiOperation("修改字典詳情")
     @PutMapping
     @PreAuthorize("@el.check('dict:edit')")
     public ResponseEntity<Object> updateDictDetail(@Validated(DictDetail.Update.class) @RequestBody DictDetail resources){
@@ -89,8 +93,8 @@ public class DictDetailController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Log("删除字典详情")
-    @ApiOperation("删除字典详情")
+    @Log("刪除字典詳情")
+    @ApiOperation("刪除字典詳情")
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("@el.check('dict:del')")
     public ResponseEntity<Object> deleteDictDetail(@PathVariable Long id){

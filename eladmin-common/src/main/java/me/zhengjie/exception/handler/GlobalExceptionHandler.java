@@ -31,19 +31,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import static org.springframework.http.HttpStatus.*;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-23
+ * 全局異常
  */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
-     * 处理所有不可知的异常
+     * 處理所有不可知的異常
      */
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ApiError> handleException(Throwable e){
-        // 打印堆栈信息
         log.error(ThrowableUtil.getStackTrace(e));
         return buildResponseEntity(ApiError.error(e.getMessage()));
     }
@@ -53,48 +51,47 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiError> badCredentialsException(BadCredentialsException e){
-        // 打印堆栈信息
-        String message = "坏的凭证".equals(e.getMessage()) ? "用户名或密码不正确" : e.getMessage();
+        String message = "壞的憑證".equals(e.getMessage()) ? "用戶名或密碼不正確" : e.getMessage();
         log.error(message);
         return buildResponseEntity(ApiError.error(message));
     }
 
     /**
-     * 处理自定义异常
+     * 處理自定義異常
      */
-	@ExceptionHandler(value = BadRequestException.class)
-	public ResponseEntity<ApiError> badRequestException(BadRequestException e) {
-        // 打印堆栈信息
+    @ExceptionHandler(value = BadRequestException.class)
+    public ResponseEntity<ApiError> badRequestException(BadRequestException e) {
+        // 打印堆棧信息
         log.error(ThrowableUtil.getStackTrace(e));
         return buildResponseEntity(ApiError.error(e.getStatus(),e.getMessage()));
-	}
+    }
 
     /**
-     * 处理 EntityExist
+     * 處理 EntityExist
      */
     @ExceptionHandler(value = EntityExistException.class)
     public ResponseEntity<ApiError> entityExistException(EntityExistException e) {
-        // 打印堆栈信息
+        // 打印堆棧信息
         log.error(ThrowableUtil.getStackTrace(e));
         return buildResponseEntity(ApiError.error(e.getMessage()));
     }
 
     /**
-     * 处理 EntityNotFound
+     * 處理 EntityNotFound
      */
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<ApiError> entityNotFoundException(EntityNotFoundException e) {
-        // 打印堆栈信息
+        // 打印堆棧信息
         log.error(ThrowableUtil.getStackTrace(e));
         return buildResponseEntity(ApiError.error(NOT_FOUND.value(),e.getMessage()));
     }
 
     /**
-     * 处理所有接口数据验证异常
+     * 處理所有接口數據驗證異常
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
-        // 打印堆栈信息
+        // 打印堆棧信息
         log.error(ThrowableUtil.getStackTrace(e));
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         String message = objectError.getDefaultMessage();
@@ -105,7 +102,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 统一返回
+     * 統一返回
      */
     private ResponseEntity<ApiError> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, HttpStatus.valueOf(apiError.getStatus()));

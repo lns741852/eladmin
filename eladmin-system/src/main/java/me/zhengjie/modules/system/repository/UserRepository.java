@@ -31,30 +31,30 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     /**
-     * 根据用户名查询
-     * @param username 用户名
+     * 根據用戶名查詢
+     * @param username 用戶名
      * @return /
      */
     User findByUsername(String username);
 
     /**
-     * 根据邮箱查询
-     * @param email 邮箱
+     * 根據郵箱查詢
+     * @param email 郵箱
      * @return /
      */
     User findByEmail(String email);
 
     /**
-     * 根据手机号查询
-     * @param phone 手机号
+     * 根據手機號查詢
+     * @param phone 手機號
      * @return /
      */
     User findByPhone(String phone);
 
     /**
-     * 修改密码
-     * @param username 用户名
-     * @param pass 密码
+     * 修改密碼
+     * @param username 用戶名
+     * @param pass 密碼
      * @param lastPasswordResetTime /
      */
     @Modifying
@@ -62,16 +62,16 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     void updatePass(String username, String pass, Date lastPasswordResetTime);
 
     /**
-     * 修改邮箱
-     * @param username 用户名
-     * @param email 邮箱
+     * 修改郵箱
+     * @param username 用戶名
+     * @param email 郵箱
      */
     @Modifying
     @Query(value = "update sys_user set email = ?2 where username = ?1",nativeQuery = true)
     void updateEmail(String username, String email);
 
     /**
-     * 根据角色查询用户
+     * 根據角色查詢用戶
      * @param roleId /
      * @return /
      */
@@ -80,7 +80,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     List<User> findByRoleId(Long roleId);
 
     /**
-     * 根据角色中的部门查询
+     * 根據角色中的部門查詢
      * @param deptId /
      * @return /
      */
@@ -89,8 +89,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     List<User> findByRoleDeptId(Long deptId);
 
     /**
-     * 根据菜单查询
-     * @param id 菜单ID
+     * 根據菜單查詢
+     * @param id 菜單ID
      * @return /
      */
     @Query(value = "SELECT u.* FROM sys_user u, sys_users_roles ur, sys_roles_menus rm WHERE\n" +
@@ -98,13 +98,13 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     List<User> findByMenuId(Long id);
 
     /**
-     * 根据Id删除
+     * 根據Id刪除
      * @param ids /
      */
     void deleteAllByIdIn(Set<Long> ids);
 
     /**
-     * 根据岗位查询
+     * 根據崗位查詢
      * @param ids /
      * @return /
      */
@@ -112,7 +112,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     int countByJobs(Set<Long> ids);
 
     /**
-     * 根据部门查询
+     * 根據部門查詢
      * @param deptIds /
      * @return /
      */
@@ -120,7 +120,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     int countByDepts(Set<Long> deptIds);
 
     /**
-     * 根据角色查询
+     * 根據角色查詢
      * @param ids /
      * @return /
      */
@@ -129,7 +129,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     int countByRoles(Set<Long> ids);
 
     /**
-     * 重置密码
+     * 重置密碼
      * @param ids 、
      * @param pwd 、
      */
